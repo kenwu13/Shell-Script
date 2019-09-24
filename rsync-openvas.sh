@@ -2,10 +2,6 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
-LogDate=$(date +%F)
-Date1=$(date +%Y-%m%d-%R)
-
-User1=ezadmin
 Name1=rsync-openvas.sh
 
 cmd[1]=greenbone-nvt-sync

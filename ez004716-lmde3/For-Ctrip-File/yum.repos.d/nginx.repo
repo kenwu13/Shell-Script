@@ -1,7 +1,0 @@
-[nginx]
-name=nginx repo
-#baseurl=http://nginx.org/packages/mainline/centos/7/$basearch/
-baseurl=http://10.248.193.101/yum/centos/7/nginx/$basearch/
-gpgcheck=0
-enabled=1
-

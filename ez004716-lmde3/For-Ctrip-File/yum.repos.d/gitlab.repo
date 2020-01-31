@@ -1,6 +1,0 @@
-[gitlab-ce]
-name=Gitlab CE Repository
-baseurl=http://10.248.193.101/yum/centos/7/gitlab/
-gpgcheck=0
-enabled=1
-

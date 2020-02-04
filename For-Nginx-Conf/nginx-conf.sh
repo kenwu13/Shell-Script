@@ -2,6 +2,15 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
+# 2020-02-04
+# Srv-List.txt = Host IP List
+# Usage: nginx-conf [<command>]
+# Available commands:
+# Restart Restart Nginx's service 
+# Deploy  Push new configuration change
+# Restore Restore previous version
+# Clear   Delete backup's file
+
 user=KenWu
 name=nginx-conf.sh
 
@@ -148,6 +157,12 @@ case ${1} in
 ;;
 
 *)
-	echo "Usage ${0} { Deploy | Restore | Clear }"
+	echo "Usage: nginx-conf [<command>] 
+	Available commands: 
+	Restart Restart Nginx's service 
+	Deploy  Push new configuration change
+	Restore Restore previous version
+	Clear   Delete backup's file"
 	;;
+
 esac

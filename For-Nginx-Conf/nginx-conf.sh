@@ -3,22 +3,23 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
 
 user=KenWu
-name=nginx-config.sh
+name=nginx-conf.sh
 
 User=KenWu
 SrvList=./Srv-List.txt
 
 RestartNginxService() {
-	rel=$(sudo rpm -q --qf "%{version}" -f /etc/redhat-release | cut -d. -f1)
-    if [ "${rel}" = "7" ];then
-        sudo systemctl restart nginx
-    elif [ "${rel}" = "6" ];then
-        sudo /etc/init.d/nginx restart
-    elif [ "${rel}" = "5" ];then
-        sudo /etc/init.d/nginx restart
-    else
-        echo "No Match"
-    fi
+rel=$(sudo /bin/rpm -q --qf "%{version}" -f /etc/redhat-release | /bin/cut -d. -f1)
+
+if [ "${rel}" = "7" ];then
+    sudo /bin/systemctl restart nginx
+elif [ "${rel}" = "6" ];then
+    sudo /etc/init.d/nginx restart
+elif [ "${rel}" = "5" ];then
+    sudo /etc/init.d/nginx restart
+else
+    echo "No Match"
+fi
 }
 
 DeployNginxConf() {
@@ -33,14 +34,14 @@ do
 	
 	if [ -d "${DestDir[${cnt}]}" ]; 
 	then
-		Array=($(sudo ls -l ${DestDir[${cnt}]} | awk {'print $9'} | grep '.conf$'))
+		Array=($(sudo ls -l ${DestDir[${cnt}]} | /bin/awk {'print $9'} | /bin/grep '.conf$'))
 
 		for ((index=0; index<${#Array[@]}; index++));
 		do
 			echo "${Array[${index}]}"
 			sudo /bin/cp "${DestDir[${cnt}]}"/"${Array[${index}]}"{,.bak}
 			sudo /bin/cp "${SrcDir[${cnt}]}"/"${Array[${index}]}" "${DestDir[${cnt}]}"/"${Array[${index}]}"
-			sudo sed -i 's/server_name\  localhost/server_name\  '"$(echo ${HOSTNAME} | cut -d . -f 1)"'.eztravel.com.tw/g' "${DestDir[${cnt}]}"/"${Array[${index}]}"
+			sudo /bin/sed -i 's/server_name\  localhost/server_name\  '"$(/bin/echo ${HOSTNAME} | /bin/cut -d . -f 1)"'.eztravel.com.tw/g' "${DestDir[${cnt}]}"/"${Array[${index}]}"
 		done
 
 	else
@@ -61,7 +62,7 @@ do
 	
 	if [ -d "${DestDir[${cnt}]}" ]; 
 	then
-		Array=($(sudo ls -l ${DestDir[${cnt}]} | awk {'print $9'} | grep '.conf$'))
+		Array=($(sudo /bin/ls -l ${DestDir[${cnt}]} | /bin/awk {'print $9'} | /bin/grep '.conf$'))
 
 		for ((index=0; index<${#Array[@]}; index++));
 		do
@@ -87,7 +88,7 @@ do
 	
 	if [ -d "${DestDir[${cnt}]}" ]; 
 	then
-		Array=($(sudo ls -l ${DestDir[${cnt}]} | awk {'print $9'} | grep '.conf$'))
+		Array=($(sudo ls -l ${DestDir[${cnt}]} | /bin/awk {'print $9'} | /bin/grep '.conf$'))
 
 		for ((index=0; index<${#Array[@]}; index++));
 		do
@@ -103,6 +104,7 @@ done
 }
 
 case ${1} in
+
 "Deploy")
 	while read line;
 	do

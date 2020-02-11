@@ -127,14 +127,15 @@ SrcDir[1]=/tmp
 DestDir[0]=/etc/nginx/conf.d
 DestDir[1]=/opt/APP/nginx/config/vhosts
 
+echo "==========================================================================================="
+echo "Hostname:${HOSTNAME}"
+echo "OS:CentOS ${rel}"
+echo "IP:$(ip addr | grep -w inet | grep -v 127.0.0.1 | cut -d/ -f1 | awk '{print $2}' | grep 10.10)"
+echo ""
+
 for cnt in $(seq 0 1)
 do
 	rel=$(/bin/rpm -q --qf "%{version}" -f /etc/redhat-release | /bin/cut -d. -f1)
-
-	echo "Hostname:${HOSTNAME}"
-	echo "OS:CentOS ${rel}"
-	echo "IP:$(ip addr | grep -w inet | grep -v 127.0.0.1 | cut -d/ -f1 | awk '{print $2}' | grep 10.10)"
-	echo ""
 
 	if [ -d "${DestDir[${cnt}]}" ]; 
 	then
@@ -148,7 +149,6 @@ do
 	else
 		echo "${DestDir[${cnt}]} does not exists."
 	fi
-	echo ""
 done
 }
 

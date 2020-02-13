@@ -16,7 +16,7 @@ name=nginx-conf.sh
 User=ezadmin
 SrvList=./Srv-List.txt
 
-ezpass='@@u4u.6j;3'
+ezpass=''
 
 RestartNginxService() {
 ezpass=$1

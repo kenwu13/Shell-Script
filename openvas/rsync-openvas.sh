@@ -1,6 +1,8 @@
 #!/bin/bash
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
+# 2020-02-13
+# For CentOS 7 Update openVAS
 
 Name1=rsync-openvas.sh
 

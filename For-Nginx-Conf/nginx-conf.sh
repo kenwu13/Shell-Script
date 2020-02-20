@@ -1,7 +1,7 @@
 #!/bin/bash
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH 
-# 2020-02-13
+# 2020-02-20
 # Srv-List.txt = Host IP List
 # Usage: nginx-conf [<command>]
 # Available commands:
@@ -9,7 +9,8 @@ export PATH
 # Deploy  - Push new configuration change
 # Restore - Restore previous version
 # Clear   - Delete backup's file
-# Search  - Search Nginx config's file"
+# Search  - Search Nginx config's file
+# Chown   - Chown Nginx config's file
 
 name=nginx-conf.sh
 
@@ -39,7 +40,7 @@ SrcDir[0]=/tmp
 SrcDir[1]=/tmp
 SrcDir[2]=/tmp
 SrcDir[3]=/tmp
-DestDir[0]=/etc/nginx/
+DestDir[0]=/etc/nginx
 DestDir[1]=/etc/nginx/conf.d
 DestDir[2]=/opt/APP/nginx/config
 DestDir[3]=/opt/APP/nginx/config/vhosts
@@ -144,7 +145,40 @@ do
 		Array=($(ls ${DestDir[${cnt}]} | /bin/grep '.conf$'))
 		for ((index=0; index<${#Array[@]}; index++));
 		do
-			/bin/ls "${DestDir[${cnt}]}"/"${Array[${index}]}"
+			/bin/ls -l "${DestDir[${cnt}]}"/"${Array[${index}]}"
+		done
+	else
+		echo "${DestDir[${cnt}]} does not exists."
+	fi
+done
+}
+
+ChownNginx() {
+ezpass=$1
+rel=$(/bin/rpm -q --qf "%{version}" -f /etc/redhat-release | /bin/cut -d. -f1)
+SrcDir[0]=/tmp
+SrcDir[1]=/tmp
+SrcDir[2]=/tmp
+SrcDir[3]=/tmp
+DestDir[0]=/etc/nginx/
+DestDir[1]=/etc/nginx/conf.d
+DestDir[2]=/opt/APP/nginx/config
+DestDir[3]=/opt/APP/nginx/config/vhosts
+
+echo "Hostname:${HOSTNAME}"
+echo "OS:CentOS ${rel}"
+echo "IP:$(ip addr | grep -w inet | grep -v 127.0.0.1 | cut -d/ -f1 | awk '{print $2}' | grep 10.10)"
+echo ""
+
+for cnt in $(seq 0 3)
+do
+	if [ -d "${DestDir[${cnt}]}" ]; 
+	then
+		Array=($(ls ${DestDir[${cnt}]} | /bin/grep '.conf$'))
+		for ((index=0; index<${#Array[@]}; index++));
+		do
+			/bin/chown -R root.root "${DestDir[${cnt}]}"
+			/bin/chown ezadmin.root "${DestDir[${cnt}]}"/"${Array[${index}]}"
 		done
 	else
 		echo "${DestDir[${cnt}]} does not exists."
@@ -231,6 +265,21 @@ case ${1} in
 	done
 ;;
 
+"Chown")
+	while read line;
+	do
+		SrvS[${index}]="${line}"
+		index=$(expr ${index} + 1)
+	done < ${SrvList}
+	for ((index=0; index<${#SrvS[@]}; index++));
+	do
+		echo "======================================================================================="
+		echo "${SrvS[${index}]}"
+		sshpass -p "${ezpass}" \
+		ssh -t ${User}@${SrvS[$index]} "$(declare -f ChownNginx);ChownNginx '${ezpass}'"
+	done
+;;
+
 *)
 	echo "Usage: nginx-conf [<command>] 
 	Available commands: 
@@ -238,7 +287,8 @@ case ${1} in
 	Deploy  - Push new configuration change
 	Restore - Restore previous version
 	Clear   - Delete backup's file
-	Search  - Search Nginx config's file"
+	Search  - Search Nginx config's file
+	Chown   - Chown Nginx config's file"
 	;;
 
 esac

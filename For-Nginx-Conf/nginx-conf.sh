@@ -1,7 +1,7 @@
 #!/bin/bash
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH 
-# 2020-02-20
+# 2020-02-13
 # Srv-List.txt = Host IP List
 # Usage: nginx-conf [<command>]
 # Available commands:
@@ -177,8 +177,10 @@ do
 		Array=($(ls ${DestDir[${cnt}]} | /bin/grep '.conf$'))
 		for ((index=0; index<${#Array[@]}; index++));
 		do
-			/bin/chown -R root.root "${DestDir[${cnt}]}"
-			/bin/chown ezadmin.root "${DestDir[${cnt}]}"/"${Array[${index}]}"
+			echo "${ezpass}" | sudo -S /bin/chown -R root.root "${DestDir[${cnt}]}"
+			echo "${ezpass}" | sudo -S /bin/chown ezadmin.root "${DestDir[${cnt}]}"/"${Array[${index}]}"
+			/bin/ls -l "${DestDir[${cnt}]}"/"${Array[${index}]}"
+			/bin/ls -l "${DestDir[${cnt}]}"
 		done
 	else
 		echo "${DestDir[${cnt}]} does not exists."
@@ -240,7 +242,7 @@ case ${1} in
 	while read line;
 	do
 		SrvS[${index}]="${line}"
-		index=$(expr ${index} + 1)
+	   	index=$(expr ${index} + 1)
 	done < ${SrvList}
 	echo "[${index}]: ${SrvS[${index}]}"
 	for ((index=0; index<${#SrvS[@]}; index++));
@@ -289,6 +291,6 @@ case ${1} in
 	Clear   - Delete backup's file
 	Search  - Search Nginx config's file
 	Chown   - Chown Nginx config's file"
-	;;
+;;
 
 esac

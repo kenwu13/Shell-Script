@@ -1,2 +1,2 @@
-# Shell-Script
-# LConfiguration file
+# Shell Script
+# Linux Configuration file

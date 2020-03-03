@@ -1,7 +1,7 @@
 #!/bin/bash
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH 
-# 2020-02-13
+# 2020-03-03
 # Srv-List.txt = Host IP List
 # Usage: nginx-conf [<command>]
 # Available commands:

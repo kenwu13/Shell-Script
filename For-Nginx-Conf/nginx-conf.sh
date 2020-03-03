@@ -177,8 +177,7 @@ do
 		Array=($(ls ${DestDir[${cnt}]} | /bin/grep '.conf$'))
 		for ((index=0; index<${#Array[@]}; index++));
 		do
-			echo "${ezpass}" | sudo -S /bin/chown -R root.root "${DestDir[${cnt}]}"
-			echo "${ezpass}" | sudo -S /bin/chown ezadmin.root "${DestDir[${cnt}]}"/"${Array[${index}]}"
+			echo "${ezpass}" | sudo -S /bin/chown -R ezadmin.root "${DestDir[${cnt}]}"
 			/bin/ls -l "${DestDir[${cnt}]}"/"${Array[${index}]}"
 			/bin/ls -l "${DestDir[${cnt}]}"
 		done

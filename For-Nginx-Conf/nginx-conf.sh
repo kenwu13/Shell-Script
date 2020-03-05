@@ -19,6 +19,12 @@ name=nginx-conf.sh
 User=
 SrvList=./Srv-List.txt
 
+while read line;
+do
+	SrvS[${index}]="${line}"
+	index=$(expr ${index} + 1)
+done < ${SrvList}
+
 ezpass=''
 
 RestartNginxService() {
@@ -192,11 +198,6 @@ done
 case ${1} in
 
 "Restart")
-	while read line;
-	do
-		SrvS[${index}]="${line}"
-		index=$(expr ${index} + 1)
-	done < ${SrvList}
 	echo "[${index}]: ${SrvS[${index}]}"
 	for ((index=0; index<${#SrvS[@]}; index++));
 	do
@@ -206,11 +207,6 @@ case ${1} in
 ;;
 
 "Deploy")
-	while read line;
-	do
-		SrvS[${index}]="${line}"
-		index=$(expr ${index} + 1)
-	done < ${SrvList}
 	echo "[${index}]: ${SrvS[${index}]}"
 	for ((index=0; index<${#SrvS[@]}; index++));
 	do
@@ -224,11 +220,6 @@ case ${1} in
 ;;
 
 "Restore")
-	while read line;
-	do
-		SrvS[${index}]="${line}"
-		index=$(expr ${index} + 1)
-	done < ${SrvList}
 	echo "[${index}]: ${SrvS[${index}]}"
 	for ((index=0; index<${#SrvS[@]}; index++));
 	do
@@ -240,11 +231,6 @@ case ${1} in
 ;;
 
 "Clear")
-	while read line;
-	do
-		SrvS[${index}]="${line}"
-	   	index=$(expr ${index} + 1)
-	done < ${SrvList}
 	echo "[${index}]: ${SrvS[${index}]}"
 	for ((index=0; index<${#SrvS[@]}; index++));
 	do
@@ -254,11 +240,6 @@ case ${1} in
 ;;
 
 "Search")
-	while read line;
-	do
-		SrvS[${index}]="${line}"
-		index=$(expr ${index} + 1)
-	done < ${SrvList}
 	for ((index=0; index<${#SrvS[@]}; index++));
 	do
 		echo "======================================================================================="
@@ -269,11 +250,6 @@ case ${1} in
 ;;
 
 "Chown")
-	while read line;
-	do
-		SrvS[${index}]="${line}"
-		index=$(expr ${index} + 1)
-	done < ${SrvList}
 	for ((index=0; index<${#SrvS[@]}; index++));
 	do
 		echo "======================================================================================="

@@ -1,7 +1,7 @@
 #!/bin/bash
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH 
-# 2020-03-03
+# 2020-03-05
 # Srv-List.txt = Host IP List
 # Usage: nginx-conf [<command>]
 # Available commands:
@@ -14,7 +14,7 @@ export PATH
 
 name=nginx-conf.sh
 
-User=ezadmin
+User=
 SrvList=./Srv-List.txt
 
 ezpass=''

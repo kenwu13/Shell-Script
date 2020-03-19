@@ -27,8 +27,7 @@ do
 done < ${SrvList}
 
 RestartNginxService() {
-Pass=$1
-rel=$(/bin/rpm -q --qf "%{version}" -f /etc/redhat-release | /bin/cut -d. -f1)
+Pass=$1 rel=$(/bin/rpm -q --qf "%{version}" -f /etc/redhat-release | /bin/cut -d. -f1)
 if [ "${rel}" = "7" ];then
     echo "${Pass}" | sudo -S /bin/systemctl restart nginx
 elif [ "${rel}" = "6" ];then
@@ -178,7 +177,7 @@ do
 		Array=($(ls ${DestDir[${cnt}]} | /bin/grep '.conf$'))
 		for ((index=0; index<${#Array[@]}; index++));
 		do
-			echo "${Pass}" | sudo -S /bin/chown -R ezadmin.root "${DestDir[${cnt}]}"
+			echo "${Pass}" | sudo -S /bin/chown -R ecadmin.root "${DestDir[${cnt}]}"
 			/bin/ls -l "${DestDir[${cnt}]}"/"${Array[${index}]}"
 			/bin/ls -l "${DestDir[${cnt}]}"
 		done
@@ -243,6 +242,8 @@ case ${1} in
 ;;
 
 "Chown")
+	echo "${Pass}"
+	echo "${SrvS[$index]}"
 	for ((index=0; index<${#SrvS[@]}; index++));
 	do
 		echo "======================================================================================="

@@ -194,7 +194,7 @@ case ${1} in
 	for ((index=0; index<${#SrvS[@]}; index++));
 	do
 		sshpass -p "${Pass}" \
-		ssh -t ${User}@${SrvS[$index]} "$(declare -f RestartNginxService);RestartNginxService '${Pass}'"
+		ssh -o "StrictHostKeyChecking no" -t ${User}@${SrvS[$index]} "$(declare -f RestartNginxService);RestartNginxService '${Pass}'"
 	done
 ;;
 
@@ -205,9 +205,9 @@ case ${1} in
 		sshpass -p "${Pass}" \
 		rsync --bwlimit=10000 -av -e ssh ./tmp/*.conf ${User}@${SrvS[$index]}:/tmp
 		sshpass -p "${Pass}" \
-		ssh -t ${User}@${SrvS[$index]} "$(declare -f DeployNginxConf);DeployNginxConf '${Pass}'"
+		ssh -o "StrictHostKeyChecking no" -t ${User}@${SrvS[$index]} "$(declare -f DeployNginxConf);DeployNginxConf '${Pass}'"
 		sshpass -p "${Pass}" \
-		ssh -t ${User}@${SrvS[$index]} "$(declare -f RestartNginxService);RestartNginxService '${Pass}'"
+		ssh -o "StrictHostKeyChecking no" -t ${User}@${SrvS[$index]} "$(declare -f RestartNginxService);RestartNginxService '${Pass}'"
 	done
 ;;
 
@@ -216,9 +216,9 @@ case ${1} in
 	for ((index=0; index<${#SrvS[@]}; index++));
 	do
 		sshpass -p "${Pass}" \
-		ssh -t ${User}@${SrvS[$index]} "$(declare -f RestoreNginxConf);RestoreNginxConf '${Pass}'"
+		ssh -o "StrictHostKeyChecking no" -t ${User}@${SrvS[$index]} "$(declare -f RestoreNginxConf);RestoreNginxConf '${Pass}'"
 		sshpass -p "${Pass}" \
-		ssh -t ${User}@${SrvS[$index]} "$(declare -f RestartNginxService);RestartNginxService '${Pass}'"
+		ssh -o "StrictHostKeyChecking no" -t ${User}@${SrvS[$index]} "$(declare -f RestartNginxService);RestartNginxService '${Pass}'"
 	done
 ;;
 
@@ -227,7 +227,7 @@ case ${1} in
 	for ((index=0; index<${#SrvS[@]}; index++));
 	do
 		sshpass -p "${Pass}" \
-		ssh -t ${User}@${SrvS[$index]} "$(declare -f ClearNginxConf);ClearNginxConf '${Pass}'"
+		ssh -o "StrictHostKeyChecking no" -t ${User}@${SrvS[$index]} "$(declare -f ClearNginxConf);ClearNginxConf '${Pass}'"
 	done
 ;;
 
@@ -237,7 +237,7 @@ case ${1} in
 		echo "======================================================================================="
 		echo "${SrvS[${index}]}"
 		sshpass -p "${Pass}" \
-		ssh -t ${User}@${SrvS[$index]} "$(declare -f SearchNginx);SearchNginx '${Pass}'"
+		ssh -o "StrictHostKeyChecking no" -t ${User}@${SrvS[$index]} "$(declare -f SearchNginx);SearchNginx '${Pass}'"
 	done
 ;;
 
@@ -249,7 +249,7 @@ case ${1} in
 		echo "======================================================================================="
 		echo "${SrvS[${index}]}"
 		sshpass -p "${Pass}" \
-		ssh -t ${User}@${SrvS[$index]} "$(declare -f ChownNginx);ChownNginx '${Pass}'"
+		ssh -o "StrictHostKeyChecking no" -t ${User}@${SrvS[$index]} "$(declare -f ChownNginx);ChownNginx '${Pass}'"
 	done
 ;;
 
